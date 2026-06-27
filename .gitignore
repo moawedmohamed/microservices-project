@@ -1,0 +1,64 @@
+# ######################################################################
+# NestJS Core & Build Outputs
+# ######################################################################
+/dist
+/node_modules
+# Local development build cache
+.node_repl_history
+
+# ######################################################################
+# Environment Variables & Secrets (CRITICAL: Never commit these!)
+# ######################################################################
+.env
+.env.production
+.env.development
+.env.local
+*.env
+
+# ######################################################################
+# TypeScript & Testing Caches
+# ######################################################################
+*.tsbuildinfo
+/coverage
+.nyc_output
+
+# ######################################################################
+# IDEs and Editors Configuration
+# ######################################################################
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# WebStorm / IntelliJ
+.idea/
+
+# Sublime Text / Eclipse
+*.sublime-project
+*.sublime-workspace
+.classpath
+.project
+.settings/
+
+# ######################################################################
+# System Files
+# ######################################################################
+.DS_Store
+Thumbs.db
+log
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ######################################################################
+# Docker (If you use Docker Compose for local database/RabbitMQ)
+# ######################################################################
+.docker/
+# Ignore local database storage folders mapped via docker volumes
+/postgres_data/
+/mongodb_data/
+/mysql_data/
