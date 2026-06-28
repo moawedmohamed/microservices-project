@@ -6,19 +6,20 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 async function bootstrap() {
   process.title = 'media'
   const logger = new Logger('MediaMBootstrap')
-  const port = Number(process.env.MEDIA_TCP_PORT ?? 4013)
+  const rmqURL = process.env.RABBITMQ_URL ?? "amqp://localhost:5672";
+
+  const queue = process.env.MEDIA_QUEUE ?? 'media_queue'
   const app = await NestFactory.createMicroservice<MicroserviceOptions>
     (
       MediaModule,
       {
-        transport: Transport.TCP,
+        transport: Transport.RMQ,
         options: {
-          host: '0.0.0.0',
-          port
+          urls: [rmqURL]
         }
       }
     );
-  logger.log(`Media microservices (TCP) listing on port ${port}`)
+  logger.log(`Media RMQ listening on queue ${queue} via ${rmqURL}`)
   app.enableShutdownHooks()
   await app.listen();
 }
