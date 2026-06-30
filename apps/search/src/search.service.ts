@@ -5,7 +5,7 @@ export class SearchService {
   ping() {
     return {
       ok: true,
-      service: "catalog ",
+      service: "search",
       new: new Date().toISOString()
     };
   }

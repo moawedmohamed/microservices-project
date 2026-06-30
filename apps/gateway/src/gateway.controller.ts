@@ -1,6 +1,6 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { firstValueFrom } from 'rxjs'
+import { firstValueFrom, timeout } from 'rxjs'
 @Controller()
 export class GatewayController {
   constructor(
@@ -15,7 +15,7 @@ export class GatewayController {
     const ping = async (serviceName: string, client: ClientProxy) => {
       try {
         const result = await firstValueFrom(
-          client.send<string>('service.ping', { from: 'getaway' })
+          client.send<string>('service.ping', { from: 'getaway' }).pipe(timeout(5000))
         )
         return {
           ok: true,

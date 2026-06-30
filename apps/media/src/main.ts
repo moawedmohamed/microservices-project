@@ -16,6 +16,10 @@ async function bootstrap() {
         transport: Transport.RMQ,
         options: {
           urls: [rmqURL]
+          ,queue,
+          queueOptions: {
+            durable: false
+          }
         }
       }
     );
@@ -23,4 +27,4 @@ async function bootstrap() {
   app.enableShutdownHooks()
   await app.listen();
 }
-bootstrap();
+void bootstrap();

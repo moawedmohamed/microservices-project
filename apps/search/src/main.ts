@@ -14,7 +14,11 @@ const rmqURL = process.env.RABBITMQ_URL ?? "amqp://localhost:5672";
     {
       transport: Transport.RMQ,
       options: {
-        urls:[rmqURL]
+        urls:[rmqURL],
+        queue,
+        queueOptions: {
+          durable: false
+        }
       }
     }
   );
@@ -22,4 +26,4 @@ const rmqURL = process.env.RABBITMQ_URL ?? "amqp://localhost:5672";
   logger.log(`Search RMQ listening on queue ${queue} via ${rmqURL }`)
   await app.listen();
 }
-bootstrap();
+void bootstrap();

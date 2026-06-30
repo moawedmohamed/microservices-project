@@ -5,7 +5,7 @@ export class MediaService {
   ping() {
     return {
       ok: true,
-      service: "catalog ",
+      service: "media",
       new: new Date().toISOString()
     };
   }
