@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { createClerkClient, verifyToken } from "@clerk/backend";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { UserContext } from "./auth.types";
@@ -8,7 +9,7 @@ export class AuthService {
         secretKey: process.env.CLERK_SECRET_KEY ?? "",
         publishableKey: process.env.CLERK_PUBLISHABLE_KEY ?? ""
     })
-    private jwtVerifyOptions(): Record<string, any{
+    private jwtVerifyOptions(): Record<string, any> {
 
         return {
             secretKey: process.env.CLERK_SECRET_KEY ?? "",
@@ -16,11 +17,11 @@ export class AuthService {
     }
     async verifyAndBuildContext(token: string): Promise<UserContext> {
         try {
-            const verified: any = await verifyToken(token, this.jwtVerifyOptions())
-            const payload = verified?.payload ?? verified?.payload ?? verified;
+            const verified = await verifyToken(token, this.jwtVerifyOptions())
+            const payload = (verified?.payload ?? verified) as Record<string, any>;
             const clerkUserId = payload?.sub ?? payload?.userId;
 
-            if (clerkUserId) {
+            if (!clerkUserId) {
                 throw new UnauthorizedException("token is missing user id ")
             }
             const role: 'user' | 'admin' = 'user';
