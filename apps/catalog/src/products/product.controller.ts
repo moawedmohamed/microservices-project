@@ -18,7 +18,7 @@ export class ProductController {
         return this.productsService.listProducts()
     }
 
-    @MessagePattern('product.list')
+    @MessagePattern('product.getById')
     geById(@Payload() payload: GetProductByIdDto) {
         return this.productsService.getProductById(payload)
     }

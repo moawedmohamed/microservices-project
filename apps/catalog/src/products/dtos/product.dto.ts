@@ -20,7 +20,7 @@ export class CreateProductDto {
     imageUrl?: string
 
     @IsString()
-    createdClerkUserId!: string
+    createdByClerkUserId!: string
 }
 
 export class GetProductByIdDto {

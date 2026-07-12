@@ -13,6 +13,7 @@ export class ProductService {
     ) { }
 
     public async createNewProduct(input: CreateProductDto) {
+        console.log('recived the req ')
         if (!input.name || !input.description) {
             rpcBadRequest('name and description are required')
         }
@@ -30,20 +31,21 @@ export class ProductService {
             price: input.price,
             status: input.status ?? 'DRAFT',
             imageUrl: input.imageUrl,
-            createdByClerkUserId: input.createdClerkUserId
+            createdByClerkUserId: input.createdByClerkUserId
         })
-        return newlyCreatedProduct
+        console.log('before pasre data')
+        return newlyCreatedProduct.toObject();
     }
 
     public async listProducts() {
-        return this.productModel.find().sort({ createdAt: -1 }).exec()
+        return this.productModel.find().sort({ createdAt: -1 }).lean().exec()
     }
 
     public async getProductById(input: { id: string }) {
         if (!isValidObjectId(input.id))
             rpcBadRequest('invalid product id')
 
-        const product = await this.productModel.findById(input.id)
+        const product = await this.productModel.findById(input.id).lean()
         if (!product) {
             rpcNotFound('product is not present in the db ')
         }

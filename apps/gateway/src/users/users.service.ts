@@ -32,13 +32,13 @@ export class UsersService {
                 }
             },
             {
-                new: true,
+                returnDocument: 'after',
                 upsert: true,
                 setDefaultsOnInsert: true
             }
         )
     }
     async findByClerkUserId(clerkUserOd: string) {
-        return this.userModel.findOne({clerkUserOd})
+        return this.userModel.findOne({ clerkUserOd })
     }
 }

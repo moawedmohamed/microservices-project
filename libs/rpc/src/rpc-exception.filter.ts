@@ -1,31 +1,27 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ArgumentsHost, Catch, HttpException } from "@nestjs/common";
-import { BaseRpcExceptionFilter, Payload, RpcException } from "@nestjs/microservices";
-import { response, Response } from "express";
+import { BaseRpcExceptionFilter, RpcException } from "@nestjs/microservices";
 import { RpcErrorPayload } from "./rpc.types";
 
 @Catch()
-
 export class RpcAllExceptionFilter extends BaseRpcExceptionFilter {
     catch(exception: unknown, host: ArgumentsHost) {
         if (exception instanceof RpcException) {
             return super.catch(exception, host)
         }
 
-        const ctx = host.switchToHttp();
-        const response = ctx.getResponse<Response>();
-        const hasGetStatus = exception != null && typeof exception === "object" && 'getStatus' in exception;
-        if (hasGetStatus) {
-            const status = (exception as any).getStatus?.()
+        if (exception instanceof HttpException) {
+            const status = exception.getStatus()
             if (status === 400) {
+                const res = exception.getResponse()
                 const payload: RpcErrorPayload = {
                     code: 'VALIDATION_ERROR',
-                    message: 'validation failed ',
-                    details: response
+                    message: 'validation failed',
+                    details: typeof res === 'string' ? res : res,
                 }
                 return super.catch(new RpcException(payload), host)
             }
         }
+
         const payload: RpcErrorPayload = {
             code: 'INTERNAL',
             message: 'internal error'
