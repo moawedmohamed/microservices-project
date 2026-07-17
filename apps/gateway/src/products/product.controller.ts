@@ -40,7 +40,7 @@ export class ProductsHttpController {
             description: body.description,
             price: Number(body.price),
             status: body.status,
-            imageUrl: '',
+            imageUrl: '', 
             createdByClerkUserId: user.clerkUserId
         }
         try {
